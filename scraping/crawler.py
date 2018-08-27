@@ -21,10 +21,9 @@ def getRacketUrls(catalog_page):
     return racquet_urls
 
 
-def findReviewLink(racquet_page):
+def findReviewDirectory(racquet_page):
     review_links = racquet_page.find('ul', attrs={'class': 'review_links'})
     for review_link in review_links.findAll('a', href=True):
         if(review_link.text == 'TW Reviews'):
             review_directory = review_link['href']
-    review_page = getHtml(index_url, review_directory)
-    return review_page
+            return review_directory

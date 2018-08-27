@@ -28,6 +28,11 @@ def getRacquetSpecsDict(racquet_page):
     return racquet_specs
 
 
+def getRacquetName(racquet_page):
+    racquet_name = racquet_page.find('h1', attrs={'class': 'name'})
+    return racquet_name.text
+
+
 def getReviewDate(review_page):
     footer = review_page.find('div', attrs={'class': 'review_footer'}).p
     review_date_sentence = footer.text.split('.')[0]
