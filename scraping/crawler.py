@@ -7,7 +7,7 @@ def getHtml(base_url, directory=''):
     url = base_url + directory
     response = requests.get(url)
     html = response.content
-    page = BeautifulSoup(html)
+    page = BeautifulSoup(html, features="html.parser")
     return page
 
 
