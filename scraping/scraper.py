@@ -4,28 +4,35 @@ import time
 
 
 def getRacquetSpecsDict(racquet_page):
-    table = racquet_page.find('div', attrs={'class': 'rac_specs'}).table
-    # tbody tag is sometimes added
-    if table.find('tbody'):
-        table = table.tbody
-        
-    racquet_specs = {}
-    for row in table.findAll('tr', recursive=False):
-        key = row.td.find('strong')
-        key_text = key.text.strip(' :')
+    table = racquet_page.find('div', attrs={'class': 'rac_specs'})
+    if table:
+        table = table.table
+        # tbody tag is sometimes added
+        if table.find('tbody'):
+            table = table.tbody
 
-        value = key.next_sibling
-        # skip <br> tags to find the next sibling
-        while(value.name == 'br'):
-            value = value.next_sibling
+        racquet_specs = {}
+        for row in table.findAll('tr', recursive=False):
+            key = row.td.find('strong')
+            if key:                
+                key_text = key.text.strip(' :')
 
-        if(value.name == 'table'):
-            value_text = value.find('td').text
-        else:
-            value_text = value.strip(' /')
+                value = key.next_sibling
+                # skip <br> tags to find the next sibling
+                while(value.name == 'br'):
+                    value = value.next_sibling
 
-        racquet_specs[key_text] = value_text
-    return racquet_specs
+                if(value.name == 'table'):
+                    value_text = value.find('td').text
+                else:
+                    value_text = value.strip(' /')
+
+                racquet_specs[key_text] = value_text
+            else:
+                return None
+        return racquet_specs
+    else:
+        return None
 
 
 def getRacquetName(racquet_page):

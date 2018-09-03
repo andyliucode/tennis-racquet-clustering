@@ -15,9 +15,12 @@ def main():
         try:
             racquet_name = scraper.getRacquetName(racquet_page)
             racquet_spec = scraper.getRacquetSpecsDict(racquet_page)
-            racquet_specs[racquet_name] = racquet_spec
+            if racquet_spec:
+                racquet_specs[racquet_name] = racquet_spec
+            else:
+                print("No specs scraped for ", url)
         except:
-            print("Couldn't scrape ", url)
+            print("Warning: Failed while scraping ", url)
 
     return racquet_specs
 
