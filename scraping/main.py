@@ -18,9 +18,9 @@ def main():
             if racquet_spec:
                 racquet_specs[racquet_name] = racquet_spec
             else:
-                print("No specs scraped for ", url)
+                print("No specs scraped for", url)
         except:
-            print("Warning: Failed while scraping ", url)
+            print("Warning: Failed while scraping", url)
 
     return racquet_specs
 

@@ -5,7 +5,10 @@ import time
 
 def getHtml(base_url, directory=''):
     url = base_url + directory
-    response = requests.get(url)
+    response = requests.get(url, timeout=5)
+    if response.status_code != 200:
+        print("Bad response code ", response.status_code, " when getting " , url)
+        return False
     html = response.content
     page = BeautifulSoup(html, features="html.parser")
     return page

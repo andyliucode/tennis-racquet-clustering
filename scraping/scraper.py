@@ -5,7 +5,7 @@ import time
 
 def getRacquetSpecsDict(racquet_page):
     table = racquet_page.find('div', attrs={'class': 'rac_specs'})
-    if table:
+    if table and table.table:
         table = table.table
         # tbody tag is sometimes added
         if table.find('tbody'):
@@ -14,13 +14,13 @@ def getRacquetSpecsDict(racquet_page):
         racquet_specs = {}
         for row in table.findAll('tr', recursive=False):
             key = row.td.find('strong')
-            if key:                
+            if key:
                 key_text = key.text.strip(' :')
 
                 value = key.next_sibling
                 # skip <br> tags to find the next sibling
                 while(value.name == 'br'):
-                    value = value.next_sibling
+                    value = value.next_sibling  
 
                 if(value.name == 'table'):
                     value_text = value.find('td').text
@@ -28,8 +28,9 @@ def getRacquetSpecsDict(racquet_page):
                     value_text = value.strip(' /')
 
                 racquet_specs[key_text] = value_text
-            else:
-                return None
+
+        if not racquet_specs:
+            return None
         return racquet_specs
     else:
         return None
