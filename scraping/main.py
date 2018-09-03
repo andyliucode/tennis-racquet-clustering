@@ -1,6 +1,7 @@
 import click
 import crawler
 import scraper
+import pickle
 
 
 def main():
@@ -11,7 +12,9 @@ def main():
 
     racquet_specs = {}
     for url in urls:
+        print('Getting racquet page', url)
         racquet_page = crawler.getHtml(url)
+        print('...done')
         try:
             racquet_name = scraper.getRacquetName(racquet_page)
             racquet_spec = scraper.getRacquetSpecsDict(racquet_page)
@@ -29,3 +32,5 @@ if __name__ == '__main__':
     racquet_specs = main()
     print(racquet_specs)
     print(len(racquet_specs))
+    with open('racquet_specs.pkl', 'wb') as filename:
+        pickle.dump(racquet_specs, filename)
